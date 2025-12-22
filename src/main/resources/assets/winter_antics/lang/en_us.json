@@ -1,0 +1,13 @@
+{
+  "itemGroup.winter_antics": "Example Mod Tab",
+  "block.winter_antics.example_block": "Example Block",
+  "item.winter_antics.example_item": "Example Item",
+
+  "winter_antics.configuration.title": "Winter Antics Configs",
+  "winter_antics.configuration.section.winter_antics.common.toml": "Winter Antics Configs",
+  "winter_antics.configuration.section.winter_antics.common.toml.title": "Winter Antics Configs",
+  "winter_antics.configuration.items": "Item List",
+  "winter_antics.configuration.logDirtBlock": "Log Dirt Block",
+  "winter_antics.configuration.magicNumberIntroduction": "Magic Number Text",
+  "winter_antics.configuration.magicNumber": "Magic Number"
+}
