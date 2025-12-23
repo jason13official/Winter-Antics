@@ -8,6 +8,8 @@ import com.cursee.winter_antics.impl.common.config.WAConfig;
 import com.cursee.winter_antics.impl.common.registry.WAEntities;
 import java.util.ArrayList;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -15,6 +17,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
@@ -48,7 +51,27 @@ public class WinterAnticsClient {
   }
 
   @SubscribeEvent
-  public static void onRegisterEntityLayerDefinitions(EntityRenderersEvent.RegisterRenderers event) {
+  public static void onRegisterEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
     event.registerEntityRenderer(WAEntities.SNOW_ANGEL, SnowAngelRenderer::new);
+  }
+
+  @SubscribeEvent
+  public static void onClientTick(ClientTickEvent.Pre event) {
+
+    Minecraft mc = Minecraft.getInstance();
+    LocalPlayer player = mc.player;
+
+    if (player == null) {
+      return;
+    }
+
+    ClientLevel level = (ClientLevel) player.level();
+
+    // every 8 seconds
+    if (level.getGameTime() % 160L == 0L && WAConfig.DEBUGGING.getAsBoolean()) {
+      BLIZZARD_POSITIONS.forEach(pair -> {
+        WinterAntics.LOG.info("XZ Pair[{}, {}]", pair.getA(), pair.getB());
+      });
+    }
   }
 }

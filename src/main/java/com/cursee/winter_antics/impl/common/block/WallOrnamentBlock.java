@@ -34,7 +34,7 @@ public class WallOrnamentBlock extends OrnamentBlock {
   public static final MapCodec<WallOrnamentBlock> CODEC = simpleCodec(WallOrnamentBlock::new);
 
   private static final VoxelShape UNDERLYING_SHAPE = Block.column(8, 3, 12);
-  
+
   private static final Map<Direction, VoxelShape> SHAPES = Shapes.rotateHorizontal(UNDERLYING_SHAPE.move(0.0f, 0.0f, 0.1875f).optimize());
 
   public WallOrnamentBlock(Properties properties) {

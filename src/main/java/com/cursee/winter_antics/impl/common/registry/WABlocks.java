@@ -34,7 +34,7 @@ public class WABlocks {
 
     BLIZZARD_ID = WinterAntics.identifier("blizzard");
     BLIZZARD_KEY = ResourceKey.create(Registries.BLOCK, BLIZZARD_ID);
-    BLIZZARD = new BlizzardBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL));
+    BLIZZARD = new BlizzardBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).setId(BLIZZARD_KEY));
 
     ORNAMENT_FLOOR_ID = WinterAntics.identifier("ornament");
     ORNAMENT_FLOOR_KEY = ResourceKey.create(Registries.BLOCK, ORNAMENT_FLOOR_ID);

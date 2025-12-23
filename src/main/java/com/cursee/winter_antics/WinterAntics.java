@@ -40,14 +40,6 @@ import org.slf4j.Logger;
 @Mod(Constants.MOD_ID)
 public class WinterAntics {
 
-
-
-  public static void main(String[] args) {
-    System.out.println(4 + 2 * 2);
-    System.out.println(7 - 2 * 2);
-    System.out.println(((double) (2 - 5) / (double) 16.0F));
-  }
-
   public static final Logger LOG = LogUtils.getLogger();
   public static IEventBus EVENT_BUS;
 
