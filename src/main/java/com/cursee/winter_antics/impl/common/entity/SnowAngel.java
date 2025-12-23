@@ -28,8 +28,6 @@ public class SnowAngel extends Mob {
 
   private static final EntityDataAccessor<Integer> DATA_LIFE_ID = SynchedEntityData.defineId(SnowAngel.class, EntityDataSerializers.INT);
 
-  private final int life = 1_200;
-
   public SnowAngel(EntityType<? extends Mob> type, Level level) {
     super(type, level);
     this.setNoGravity(true);
