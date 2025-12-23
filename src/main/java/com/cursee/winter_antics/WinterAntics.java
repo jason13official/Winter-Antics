@@ -3,6 +3,7 @@ package com.cursee.winter_antics;
 import com.cursee.winter_antics.impl.common.config.WAConfig;
 import com.cursee.winter_antics.impl.common.entity.SnowAngel;
 import com.cursee.winter_antics.impl.common.registry.WAEntities;
+import com.cursee.winter_antics.impl.server.config.WAServerConfig;
 import com.mojang.logging.LogUtils;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -15,16 +16,22 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.config.ModConfig.Type;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
@@ -49,6 +56,7 @@ public class WinterAntics {
 
     // Register the commonSetup method for mod loading
     modEventBus.addListener(this::commonSetup);
+    modEventBus.addListener(this::onCreateEntityAttributes);
 
     // Register ourselves for server and other game events we are interested in.
     // Note that this is necessary if and only if we want *this* class (WinterAntics) to respond directly to events.
@@ -60,6 +68,7 @@ public class WinterAntics {
 
     // Register our mod's ModConfigSpec so that FML can create and load the config file for us
     modContainer.registerConfig(ModConfig.Type.COMMON, WAConfig.SPEC);
+    modContainer.registerConfig(Type.SERVER, WAServerConfig.SPEC);
   }
 
   public static Identifier identifier(String path) {
@@ -94,6 +103,10 @@ public class WinterAntics {
 //    Config.ITEM_STRINGS.get().forEach((item) -> LOG.info("ITEM >> {}", item));
   }
 
+  public void onCreateEntityAttributes(EntityAttributeCreationEvent event) {
+    event.put(WAEntities.SNOW_ANGEL, Mob.createMobAttributes().build());
+  }
+
   // You can use SubscribeEvent and let the Event Bus discover methods to call
   @SubscribeEvent
   public void onServerStarting(ServerStartingEvent event) {
@@ -102,25 +115,27 @@ public class WinterAntics {
   }
 
   @SubscribeEvent
-  public void onPlayerTick(PlayerTickEvent event) {
+  public void onPlayerTick(PlayerTickEvent.Pre event) {
 
     if (!(event.getEntity() instanceof ServerPlayer player)) {
       return;
     }
 
-    if (!(player.getRandom().nextFloat() <= 0.001)) {
-      return;
-    }
-
-    if (!player.isVisuallyCrawling()) {
+    if (!(player.getRandom().nextFloat() <= 0.01) || !player.isVisuallyCrawling()) {
       return;
     }
 
     ServerLevel level = player.level();
+    Vec3 rawPos = player.position();
     BlockPos pos = player.blockPosition();
     BlockState state = level.getBlockState(pos);
 
-    if (state.is(BlockTags.SNOW)) {
+    if (WAServerConfig.SPAWN_SNOW_ANGELS.getAsBoolean() && state.is(Blocks.SNOW)) {
+
+      var nearby = level.getEntities(player, player.getBoundingBox().inflate(2, 0, 2), entity -> entity instanceof SnowAngel);
+      if (!nearby.isEmpty()) {
+        return;
+      }
 
       SnowAngel snowAngel = WAEntities.SNOW_ANGEL.create(level, EntitySpawnReason.NATURAL);
       if (snowAngel == null) {
@@ -128,11 +143,16 @@ public class WinterAntics {
       }
 
       snowAngel.forceSetRotation(player.yRotO, true, player.xRotO, true);
-      snowAngel.snapTo(pos.getX(), pos.getY(), pos.getZ());
+
+      // snowAngel.snapTo(pos.getX(), pos.getY(), pos.getZ());
+      snowAngel.snapTo(rawPos);
+
       level.addFreshEntity(snowAngel);
       snowAngel.gameEvent(GameEvent.ENTITY_PLACE, player);
 
-      LOG.info("Spawned new Snow Angel in dimension {} at position {}", level.dimension(), pos.toShortString());
+      if (WAConfig.DEBUGGING.getAsBoolean()) {
+        LOG.info("Spawned new Snow Angel in dimension {} at position {}", level.dimension(), pos.toShortString());
+      }
     }
   }
 }

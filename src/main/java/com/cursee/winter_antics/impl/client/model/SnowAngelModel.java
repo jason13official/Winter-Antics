@@ -14,6 +14,7 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.resources.Identifier;
 
 public class SnowAngelModel extends EntityModel<SnowAngelRenderState> {
@@ -24,7 +25,7 @@ public class SnowAngelModel extends EntityModel<SnowAngelRenderState> {
   private final ModelPart main;
 
   public SnowAngelModel(ModelPart root) {
-    super(root);
+    super(root, RenderTypes::entityTranslucent);
     this.main = root.getChild("main");
   }
 
@@ -32,8 +33,11 @@ public class SnowAngelModel extends EntityModel<SnowAngelRenderState> {
     MeshDefinition meshdefinition = new MeshDefinition();
     PartDefinition partdefinition = meshdefinition.getRoot();
 
+//    PartDefinition main = partdefinition.addOrReplaceChild("main", CubeListBuilder.create().texOffs(0, 0).addBox(-20.0F, -1.0F, -20.0F, 40.0F, 1.0F, 40.0F, new CubeDeformation(0.0F)),
+//        PartPose.offset(0.0F, 22.0F, 0.0F));
+
     PartDefinition main = partdefinition.addOrReplaceChild("main", CubeListBuilder.create().texOffs(0, 0).addBox(-20.0F, -1.0F, -20.0F, 40.0F, 1.0F, 40.0F, new CubeDeformation(0.0F)),
-        PartPose.offset(0.0F, 24.0F, 0.0F));
+        PartPose.offsetAndRotation(0.0F, 22.0F, 0.0F, 0f, (float) Math.PI, 0f));
 
     return LayerDefinition.create(meshdefinition, 128, 128);
   }

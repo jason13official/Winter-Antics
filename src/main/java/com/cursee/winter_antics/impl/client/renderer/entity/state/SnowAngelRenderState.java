@@ -6,7 +6,7 @@ import net.minecraft.resources.Identifier;
 
 public class SnowAngelRenderState extends LivingEntityRenderState {
 
-  private static final Identifier DEFAULT_TEXTURE = WinterAntics.identifier("textures/entity/snow_angel/snow_angel.png");
+  private static final Identifier DEFAULT_TEXTURE = WinterAntics.identifier("textures/entity/snow_angel/snow_angel_translucent.png");
 
   public Identifier texture;
 
