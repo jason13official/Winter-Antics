@@ -2,7 +2,9 @@ package com.cursee.winter_antics;
 
 import com.cursee.winter_antics.impl.common.config.WAConfig;
 import com.cursee.winter_antics.impl.common.entity.SnowAngel;
+import com.cursee.winter_antics.impl.common.registry.WABlocks;
 import com.cursee.winter_antics.impl.common.registry.WAEntities;
+import com.cursee.winter_antics.impl.common.registry.WAItems;
 import com.cursee.winter_antics.impl.server.config.WAServerConfig;
 import com.mojang.logging.LogUtils;
 import java.util.function.BiConsumer;
@@ -14,11 +16,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -41,6 +40,14 @@ import org.slf4j.Logger;
 @Mod(Constants.MOD_ID)
 public class WinterAntics {
 
+
+
+  public static void main(String[] args) {
+    System.out.println(4 + 2 * 2);
+    System.out.println(7 - 2 * 2);
+    System.out.println(((double) (2 - 5) / (double) 16.0F));
+  }
+
   public static final Logger LOG = LogUtils.getLogger();
   public static IEventBus EVENT_BUS;
 
@@ -51,6 +58,9 @@ public class WinterAntics {
     EVENT_BUS = modEventBus;
 
     bind(Registries.ENTITY_TYPE, WAEntities::register);
+    bind(Registries.BLOCK, WABlocks::register);
+    bind(Registries.ITEM, WAItems::registerItems);
+    bind(Registries.CREATIVE_MODE_TAB, WAItems::registerTabs);
 
     WinterAntics.LOG.info("{} common initialization is occurring.", Constants.MOD_ID);
 
@@ -58,9 +68,7 @@ public class WinterAntics {
     modEventBus.addListener(this::commonSetup);
     modEventBus.addListener(this::onCreateEntityAttributes);
 
-    // Register ourselves for server and other game events we are interested in.
-    // Note that this is necessary if and only if we want *this* class (WinterAntics) to respond directly to events.
-    // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
+    // means we can only subscribe to NF events, not mod events
     NeoForge.EVENT_BUS.register(this);
 
 //    // Register the item to a creative tab

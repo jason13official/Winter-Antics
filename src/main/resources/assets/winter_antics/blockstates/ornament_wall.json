@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=west": {
+      "model": "minecraft:block/cocoa_stage2",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "minecraft:block/cocoa_stage2",
+      "y": 180
+    },
+    "facing=north": {
+      "model": "minecraft:block/cocoa_stage2"
+    },
+    "facing=east": {
+      "model": "minecraft:block/cocoa_stage2",
+      "y": 90
+    }
+  }
+}
