@@ -3,6 +3,10 @@
   "package": "com.cursee.winter_antics.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [],
+  "client": [
+    "WeatherEffectRendererMixin"
+  ],
+  "server": [],
   "injectors": {
     "defaultRequire": 1
   },
