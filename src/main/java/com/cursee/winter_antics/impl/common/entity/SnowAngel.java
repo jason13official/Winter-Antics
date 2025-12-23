@@ -33,6 +33,7 @@ public class SnowAngel extends Mob {
   public SnowAngel(EntityType<? extends Mob> type, Level level) {
     super(type, level);
     this.setNoGravity(true);
+    this.blocksBuilding = false;
   }
 
 //  public SnowAngel(Level level) {
