@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "minecraft:block/turtle_egg"
+      "model": "winter_antics:block/ornament"
     }
   }
 }

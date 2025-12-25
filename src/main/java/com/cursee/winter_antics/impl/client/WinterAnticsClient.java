@@ -4,13 +4,16 @@ import com.cursee.winter_antics.Constants;
 import com.cursee.winter_antics.WinterAntics;
 import com.cursee.winter_antics.impl.client.model.SnowAngelModel;
 import com.cursee.winter_antics.impl.client.renderer.entity.SnowAngelRenderer;
+import com.cursee.winter_antics.impl.common.block.OrnamentBlock;
 import com.cursee.winter_antics.impl.common.config.WAConfig;
+import com.cursee.winter_antics.impl.common.registry.WABlocks;
 import com.cursee.winter_antics.impl.common.registry.WAEntities;
 import java.util.ArrayList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.world.level.material.MapColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -19,6 +22,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.registries.RegisterEvent;
@@ -43,6 +47,23 @@ public class WinterAnticsClient {
     if (WAConfig.DEBUGGING.getAsBoolean()) {
       WinterAntics.LOG.info("{} client setup is occurring.", Constants.MOD_ID);
     }
+  }
+
+  @SubscribeEvent
+  public static void onRegisterBlockColorHandlers(RegisterColorHandlersEvent.Block event) {
+
+    event.register((blockState, blockAndTintGetter, blockPos, index) -> {
+
+      if (index == 0 && blockState.getBlock() instanceof OrnamentBlock) {
+        MapColor mapColor = MapColor.byId(blockState.getValue(OrnamentBlock.MAP_COLOR));
+        return mapColor.col;
+      }
+
+//      return MapColor.byId(blockState.getValue(OrnamentBlock.MAP_COLOR)).col;
+
+      return 0xFFFFFFFF;
+
+    }, WABlocks.ORNAMENT_FLOOR, WABlocks.ORNAMENT_WALL);
   }
 
   @SubscribeEvent

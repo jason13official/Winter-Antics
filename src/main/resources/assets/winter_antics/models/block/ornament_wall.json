@@ -1,0 +1,32 @@
+{
+	"format_version": "1.21.11",
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "winter_antics:block/ornament_wall",
+		"particle": "winter_antics:block/ornament_wall"
+	},
+	"elements": [
+		{
+			"from": [6, 2, 11],
+			"to": [10, 7, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4.5, 13]},
+			"faces": {
+				"north": {"uv": [0, 0, 4, 5], "texture": "#0", "tintindex": 0},
+				"east": {"uv": [4, 0, 8, 5], "texture": "#0", "tintindex": 0},
+				"south": {"uv": [0, 5, 4, 10], "texture": "#0", "tintindex": 0},
+				"west": {"uv": [4, 5, 8, 10], "texture": "#0", "tintindex": 0},
+				"up": {"uv": [12, 4, 8, 0], "texture": "#0", "tintindex": 0},
+				"down": {"uv": [12, 4, 8, 8], "texture": "#0", "tintindex": 0}
+			}
+		},
+		{
+			"from": [8, 7, 14],
+			"to": [8, 9, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, -5, 2]},
+			"faces": {
+				"east": {"uv": [2, 1, 0, 3], "texture": "#0"},
+				"west": {"uv": [0, 1, 2, 3], "texture": "#0"}
+			}
+		}
+	]
+}

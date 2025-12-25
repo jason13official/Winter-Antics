@@ -56,7 +56,7 @@ public class StandingOrnamentBlock extends OrnamentBlock {
 
   public BlockState getStateForPlacement(BlockPlaceContext context) {
     FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-    return this.defaultBlockState().setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
+    return this.defaultBlockState().setValue(MAP_COLOR, context.getLevel().getRandom().nextInt(0, 62)).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
   }
 
   protected BlockState updateShape(BlockState p_57005_, LevelReader p_374220_, ScheduledTickAccess p_374377_, BlockPos p_57009_, Direction p_57006_, BlockPos p_57010_, BlockState p_57007_,

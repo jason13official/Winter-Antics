@@ -71,7 +71,7 @@ public class WallOrnamentBlock extends OrnamentBlock {
 
     for (Direction direction : context.getNearestLookingDirections()) {
       if (direction.getAxis().isHorizontal()) {
-        blockstate = blockstate.setValue(FACING, direction);
+        blockstate = blockstate.setValue(FACING, direction).setValue(MAP_COLOR, context.getLevel().getRandom().nextInt(0, 62));
         if (blockstate.canSurvive(levelreader, blockpos)) {
           return blockstate;
         }
