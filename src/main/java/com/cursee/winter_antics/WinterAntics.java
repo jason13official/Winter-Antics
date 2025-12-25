@@ -1,6 +1,7 @@
 package com.cursee.winter_antics;
 
 import com.cursee.winter_antics.impl.common.config.WAConfig;
+import com.cursee.winter_antics.impl.common.entity.BlizzardGolem;
 import com.cursee.winter_antics.impl.common.entity.SnowAngel;
 import com.cursee.winter_antics.impl.common.registry.WABlockEntities;
 import com.cursee.winter_antics.impl.common.registry.WABlocks;
@@ -106,7 +107,9 @@ public class WinterAntics {
   }
 
   public void onCreateEntityAttributes(EntityAttributeCreationEvent event) {
+
     event.put(WAEntities.SNOW_ANGEL, Mob.createMobAttributes().build());
+    event.put(WAEntities.BLIZZARD_GOLEM, BlizzardGolem.createAttributes().build());
   }
 
   // You can use SubscribeEvent and let the Event Bus discover methods to call
@@ -118,6 +121,10 @@ public class WinterAntics {
 
   @SubscribeEvent
   public void onPlayerTick(PlayerTickEvent.Pre event) {
+
+    if (!WAServerConfig.SPAWN_SNOW_ANGELS.getAsBoolean()) {
+      return;
+    }
 
     if (!(event.getEntity() instanceof ServerPlayer player)) {
       return;
@@ -132,7 +139,7 @@ public class WinterAntics {
     BlockPos pos = player.blockPosition();
     BlockState state = level.getBlockState(pos);
 
-    if (WAServerConfig.SPAWN_SNOW_ANGELS.getAsBoolean() && state.is(Blocks.SNOW)) {
+    if (state.is(Blocks.SNOW)) {
 
       var nearby = level.getEntities(player, player.getBoundingBox().inflate(2, 0, 2), entity -> entity instanceof SnowAngel);
       if (!nearby.isEmpty()) {

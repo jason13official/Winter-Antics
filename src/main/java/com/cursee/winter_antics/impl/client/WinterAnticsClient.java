@@ -2,17 +2,14 @@ package com.cursee.winter_antics.impl.client;
 
 import com.cursee.winter_antics.Constants;
 import com.cursee.winter_antics.WinterAntics;
+import com.cursee.winter_antics.impl.client.model.BlizzardGolemModel;
 import com.cursee.winter_antics.impl.client.model.SnowAngelModel;
+import com.cursee.winter_antics.impl.client.renderer.entity.BlizzardGolemRenderer;
 import com.cursee.winter_antics.impl.client.renderer.entity.SnowAngelRenderer;
 import com.cursee.winter_antics.impl.common.block.OrnamentBlock;
 import com.cursee.winter_antics.impl.common.config.WAConfig;
 import com.cursee.winter_antics.impl.common.registry.WABlocks;
 import com.cursee.winter_antics.impl.common.registry.WAEntities;
-import java.util.ArrayList;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -20,20 +17,14 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
-import net.neoforged.neoforge.registries.RegisterEvent;
-import oshi.util.tuples.Pair;
 
 @Mod(value = Constants.MOD_ID, dist = Dist.CLIENT)
-// You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
 @EventBusSubscriber(modid = Constants.MOD_ID, value = Dist.CLIENT)
 public class WinterAnticsClient {
-
-  public static final ArrayList<Pair<Integer, Integer>> BLIZZARD_POSITIONS = new ArrayList<>();
 
   public WinterAnticsClient(ModContainer container) {
 
@@ -42,15 +33,19 @@ public class WinterAnticsClient {
     container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
   }
 
-  @SubscribeEvent
-  public static void onClientSetup(FMLClientSetupEvent event) {
-    if (WAConfig.DEBUGGING.getAsBoolean()) {
-      WinterAntics.LOG.info("{} client setup is occurring.", Constants.MOD_ID);
-    }
-  }
+//  @SubscribeEvent
+//  public static void onClientSetup(FMLClientSetupEvent event) {
+//    if (WAConfig.DEBUGGING.getAsBoolean()) {
+//      WinterAntics.LOG.info("{} client setup is occurring.", Constants.MOD_ID);
+//    }
+//  }
 
   @SubscribeEvent
   public static void onRegisterBlockColorHandlers(RegisterColorHandlersEvent.Block event) {
+
+    if (WAConfig.DEBUGGING.getAsBoolean()) {
+      WinterAntics.LOG.info("Registering block color handlers for {}", Constants.MOD_ID);
+    }
 
     event.register((blockState, blockAndTintGetter, blockPos, index) -> {
 
@@ -68,31 +63,23 @@ public class WinterAnticsClient {
 
   @SubscribeEvent
   public static void onRegisterEntityLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
+
+    if (WAConfig.DEBUGGING.getAsBoolean()) {
+      WinterAntics.LOG.info("Registering entity layer definitions for {}", Constants.MOD_ID);
+    }
+
     event.registerLayerDefinition(SnowAngelModel.LAYER_LOCATION, SnowAngelModel::createBodyLayer);
+    event.registerLayerDefinition(BlizzardGolemModel.LAYER_LOCATION, BlizzardGolemModel::createBodyLayer);
   }
 
   @SubscribeEvent
   public static void onRegisterEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+
+    if (WAConfig.DEBUGGING.getAsBoolean()) {
+      WinterAntics.LOG.info("Registering entity renderers for {}", Constants.MOD_ID);
+    }
+
     event.registerEntityRenderer(WAEntities.SNOW_ANGEL, SnowAngelRenderer::new);
-  }
-
-  @SubscribeEvent
-  public static void onClientTick(ClientTickEvent.Pre event) {
-
-    Minecraft mc = Minecraft.getInstance();
-    LocalPlayer player = mc.player;
-
-    if (player == null) {
-      return;
-    }
-
-    ClientLevel level = (ClientLevel) player.level();
-
-    // every 8 seconds
-    if (level.getGameTime() % 160L == 0L && WAConfig.DEBUGGING.getAsBoolean()) {
-      BLIZZARD_POSITIONS.forEach(pair -> {
-        WinterAntics.LOG.info("XZ Pair[{}, {}]", pair.getA(), pair.getB());
-      });
-    }
+    event.registerEntityRenderer(WAEntities.BLIZZARD_GOLEM, BlizzardGolemRenderer::new);
   }
 }
