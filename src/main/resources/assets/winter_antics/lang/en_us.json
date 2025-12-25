@@ -3,8 +3,10 @@
 
   "block.winter_antics.ornament": "Ornament",
   "block.winter_antics.ornament_wall": "Ornament",
+  "block.winter_antics.blizzard": "Blizzard",
 
   "item.winter_antics.ornament": "Ornament",
+  "item.winter_antics.blizzard": "Blizzard",
 
   "winter_antics.configuration.title": "Winter Antics Configs",
   "winter_antics.configuration.section.winter_antics.common.toml": "Winter Antics Configs",

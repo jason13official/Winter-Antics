@@ -50,7 +50,7 @@ public class WAItems {
 
     WINTER_ANTICS_TAB = CreativeModeTab.builder().icon(() -> new ItemStack(Items.COCOA_BEANS)).title(Component.translatable("itemGroup.winterAntics")).displayItems((itemDisplayParameters, output) -> {
       output.accept(WAItems.ORNAMENT);
-      output.accept(WAItems.ORNAMENT);
+      output.accept(WAItems.BLIZZARD);
     }).build();
 
     consumer.accept(WINTER_ANTICS_TAB, WINTER_ANTICS_TAB_ID);
