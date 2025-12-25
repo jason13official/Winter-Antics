@@ -41,7 +41,7 @@ public class WAItems {
 
     BLIZZARD_SPAWN_EGG_ID = WinterAntics.identifier("blizzard_egg");
     BLIZZARD_SPAWN_EGG_KEY = ResourceKey.create(Registries.ITEM, BLIZZARD_SPAWN_EGG_ID);
-    BLIZZARD_SPAWN_EGG = new SpawnEggItem(new Properties().spawnEgg(WAEntities.BLIZZARD_GOLEM));
+    BLIZZARD_SPAWN_EGG = new SpawnEggItem(new Properties().spawnEgg(WAEntities.BLIZZARD_GOLEM).setId(BLIZZARD_SPAWN_EGG_KEY));
 
     ORNAMENT_ID = WinterAntics.identifier("ornament");
     ORNAMENT_KEY = ResourceKey.create(Registries.ITEM, ORNAMENT_ID);
