@@ -22,7 +22,7 @@ public class ThrownOrnament extends ThrowableItemProjectile {
 
   private static final EntityDimensions ZERO_SIZED_DIMENSIONS = EntityDimensions.fixed(0.0F, 0.0F);
 
-  public ThrownOrnament(EntityType<? extends ThrownEgg> p_478861_, Level p_478341_) {
+  public ThrownOrnament(EntityType<? extends ThrowableItemProjectile> p_478861_, Level p_478341_) {
     super(p_478861_, p_478341_);
   }
 
