@@ -30,6 +30,10 @@ public class WAItems {
   public static ResourceKey<Item> ORNAMENT_KEY;
   public static Item ORNAMENT;
 
+  public static Identifier WREATH_ID;
+  public static ResourceKey<Item> WREATH_KEY;
+  public static Item WREATH;
+
   public static Identifier WINTER_ANTICS_TAB_ID;
   public static CreativeModeTab WINTER_ANTICS_TAB;
 
@@ -47,9 +51,14 @@ public class WAItems {
     ORNAMENT_KEY = ResourceKey.create(Registries.ITEM, ORNAMENT_ID);
     ORNAMENT = new OrnamentItem(WABlocks.ORNAMENT_FLOOR, WABlocks.ORNAMENT_WALL, Direction.DOWN, new Properties().stacksTo(16).setId(ORNAMENT_KEY));
 
+    WREATH_ID = WinterAntics.identifier("wreath");
+    WREATH_KEY = ResourceKey.create(Registries.ITEM, WREATH_ID);
+    WREATH = new BlockItem(WABlocks.WREATH, new Properties().stacksTo(16).setId(WREATH_KEY));
+
     consumer.accept(BLIZZARD, BLIZZARD_ID);
     consumer.accept(BLIZZARD_SPAWN_EGG, BLIZZARD_SPAWN_EGG_ID);
     consumer.accept(ORNAMENT, ORNAMENT_ID);
+    consumer.accept(WREATH, WREATH_ID);
   }
 
   public static void registerTabs(BiConsumer<CreativeModeTab, Identifier> consumer) {
@@ -61,6 +70,7 @@ public class WAItems {
         .title(Component.translatable("itemGroup.winterAntics"))
         .displayItems((itemDisplayParameters, output) -> {
           output.accept(WAItems.ORNAMENT);
+          output.accept(WAItems.WREATH);
           output.accept(WAItems.BLIZZARD);
           output.accept(WAItems.BLIZZARD_SPAWN_EGG);
         }).build();
