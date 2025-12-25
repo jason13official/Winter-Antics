@@ -2,6 +2,7 @@ package com.cursee.winter_antics;
 
 import com.cursee.winter_antics.impl.common.config.WAConfig;
 import com.cursee.winter_antics.impl.common.entity.SnowAngel;
+import com.cursee.winter_antics.impl.common.registry.WABlockEntities;
 import com.cursee.winter_antics.impl.common.registry.WABlocks;
 import com.cursee.winter_antics.impl.common.registry.WAEntities;
 import com.cursee.winter_antics.impl.common.registry.WAItems;
@@ -51,6 +52,7 @@ public class WinterAntics {
 
     bind(Registries.ENTITY_TYPE, WAEntities::register);
     bind(Registries.BLOCK, WABlocks::register);
+    bind(Registries.BLOCK_ENTITY_TYPE, WABlockEntities::register);
     bind(Registries.ITEM, WAItems::registerItems);
     bind(Registries.CREATIVE_MODE_TAB, WAItems::registerTabs);
 
