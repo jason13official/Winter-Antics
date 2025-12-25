@@ -14,8 +14,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 
 public class WAItems {
 
@@ -48,10 +46,13 @@ public class WAItems {
 
     WINTER_ANTICS_TAB_ID = WinterAntics.identifier(Constants.MOD_ID);
 
-    WINTER_ANTICS_TAB = CreativeModeTab.builder().icon(() -> new ItemStack(Items.COCOA_BEANS)).title(Component.translatable("itemGroup.winterAntics")).displayItems((itemDisplayParameters, output) -> {
-      output.accept(WAItems.ORNAMENT);
-      output.accept(WAItems.BLIZZARD);
-    }).build();
+    WINTER_ANTICS_TAB = CreativeModeTab.builder()
+        .icon(() -> new ItemStack(WAItems.ORNAMENT))
+        .title(Component.translatable("itemGroup.winterAntics"))
+        .displayItems((itemDisplayParameters, output) -> {
+          output.accept(WAItems.ORNAMENT);
+          output.accept(WAItems.BLIZZARD);
+        }).build();
 
     consumer.accept(WINTER_ANTICS_TAB, WINTER_ANTICS_TAB_ID);
   }

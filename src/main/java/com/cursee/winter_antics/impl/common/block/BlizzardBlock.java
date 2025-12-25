@@ -50,10 +50,14 @@ public class BlizzardBlock extends Block implements EntityBlock {
   @Override
   public void animateTick(BlockState selfState, Level level, BlockPos selfPos, RandomSource random) {
 
+    if (level.getGameTime() % 10 != 0) {
+      return;
+    }
+
     int y = selfPos.getY();
 
     int radius = 15;
-    int xStart = selfPos.getZ();
+    int xStart = selfPos.getX();
     int zStart = selfPos.getZ();
 
     for (int x = xStart - radius; x <= xStart + radius; x++) {
@@ -65,8 +69,14 @@ public class BlizzardBlock extends Block implements EntityBlock {
 
 //        level.addParticle(ParticleTypes.SNOWFLAKE, x, y, z, 0, 0, 0); // spawn in radius around block at same Y level
 //
-        level.addParticle(ParticleTypes.SNOWFLAKE, x, y + 1, z, 0, 0, 0); // spawn in radius around block at same Y level
-        level.addParticle(ParticleTypes.SNOWFLAKE, x, y + 2, z, 0, 0, 0); // spawn in radius around block at same Y level
+//        level.addParticle(ParticleTypes.SNOWFLAKE, x, y + 1, z, 0, 0, 0); // spawn in radius around block at same Y level
+//        level.addParticle(ParticleTypes.SNOWFLAKE, x, y + 2, z, 0, 0, 0); // spawn in radius around block at same Y level
+//
+
+        double modifier = random.nextBoolean() ? 1D : -1D;
+
+        level.addParticle(ParticleTypes.SNOWFLAKE, x + (random.nextDouble() * modifier), y + 2D, z + (random.nextFloat() * modifier), 0, 0.2D, 0);
+        level.addParticle(ParticleTypes.SNOWFLAKE, x + (random.nextDouble() * modifier), y + 3D, z + (random.nextFloat() * modifier), 0, 0.2D, 0);
       }
     }
   }

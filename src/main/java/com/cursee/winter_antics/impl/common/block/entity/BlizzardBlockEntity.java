@@ -2,6 +2,7 @@ package com.cursee.winter_antics.impl.common.block.entity;
 
 import com.cursee.winter_antics.impl.common.registry.WABlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
@@ -28,17 +29,23 @@ public class BlizzardBlockEntity extends BlockEntity {
     int y = selfPos.getY();
 
     int radius = 15;
-    int xStart = selfPos.getZ();
+    int xStart = selfPos.getX();
     int zStart = selfPos.getZ();
+
+    MutableBlockPos mutable = new MutableBlockPos();
 
     for (int x = xStart - radius; x <= xStart + radius; x++) {
       for (int z = zStart - radius; z <= zStart + radius; z++) {
+
 
         // level.addParticle(ParticleTypes.SNOWFLAKE, x, y - 1, z, 0, 0, 0);
 
         // level.addParticle(ParticleTypes.SNOWFLAKE, x, y, z, 0, 0, 0); // spawn in radius around block at same Y level
         if (level.getRandom().nextFloat() <= 0.01) {
-          tryPlaceSnow(x, y, z, level, maxSnowLayers);
+          mutable.set(x, y, z);
+          tryPlaceSnow(mutable.below(), level, maxSnowLayers);
+          tryPlaceSnow(mutable, level, maxSnowLayers);
+          tryPlaceSnow(mutable.above(), level, maxSnowLayers);
         }
 
         // level.addParticle(ParticleTypes.SNOWFLAKE, x, y + 1, z, 0, 0, 0);
@@ -46,22 +53,22 @@ public class BlizzardBlockEntity extends BlockEntity {
     }
   }
 
-  private static void tryPlaceSnow(int x, int y, int z, ServerLevel serverLevel, int maxSnowLayers) {
-    var newPos = BlockPos.of(BlockPos.asLong(x, y, z));
-    var state = serverLevel.getBlockState(newPos);
+  private static void tryPlaceSnow(BlockPos pos, ServerLevel serverLevel, int maxSnowLayers) {
 
-    if ((state.isAir() || state.is(Blocks.SNOW)) && Blocks.SNOW.defaultBlockState().canSurvive(serverLevel, newPos)) {
+    var state = serverLevel.getBlockState(pos);
+
+    if ((state.isAir() || state.is(Blocks.SNOW)) && Blocks.SNOW.defaultBlockState().canSurvive(serverLevel, pos)) {
       if (state.is(Blocks.SNOW)) {
         int j = state.getValue(SnowLayerBlock.LAYERS);
         if (j < Math.min(maxSnowLayers, 8)) {
           BlockState newState = state.setValue(SnowLayerBlock.LAYERS, j + 1);
-          Block.pushEntitiesUp(state, newState, serverLevel, newPos);
-          serverLevel.setBlockAndUpdate(newPos, newState);
-          BlockEntity.setChanged(serverLevel, newPos, newState);
+          Block.pushEntitiesUp(state, newState, serverLevel, pos);
+          serverLevel.setBlockAndUpdate(pos, newState);
+          BlockEntity.setChanged(serverLevel, pos, newState);
         }
       } else {
-        serverLevel.setBlockAndUpdate(newPos, Blocks.SNOW.defaultBlockState());
-        BlockEntity.setChanged(serverLevel, newPos, state);
+        serverLevel.setBlockAndUpdate(pos, Blocks.SNOW.defaultBlockState());
+        BlockEntity.setChanged(serverLevel, pos, state);
       }
     }
   }
