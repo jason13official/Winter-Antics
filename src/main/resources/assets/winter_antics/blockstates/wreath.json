@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=west": {
+      "model": "winter_antics:block/wreath",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "winter_antics:block/wreath",
+      "y": 180
+    },
+    "facing=north": {
+      "model": "winter_antics:block/wreath"
+    },
+    "facing=east": {
+      "model": "winter_antics:block/wreath",
+      "y": 90
+    }
+  }
+}

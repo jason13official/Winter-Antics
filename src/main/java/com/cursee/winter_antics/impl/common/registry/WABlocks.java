@@ -30,6 +30,10 @@ public class WABlocks {
   public static ResourceKey<Block> ORNAMENT_WALL_KEY;
   public static Block ORNAMENT_WALL;
 
+  public static Identifier WREATH_ID;
+  public static ResourceKey<Block> WREATH_KEY;
+  public static Block WREATH;
+
   public static void register(BiConsumer<Block, Identifier> consumer) {
 
     BLIZZARD_ID = WinterAntics.identifier("blizzard");
@@ -59,8 +63,20 @@ public class WABlocks {
             .pushReaction(PushReaction.DESTROY)
             .setId(ORNAMENT_WALL_KEY));
 
+    WREATH_ID = WinterAntics.identifier("wreath");
+    WREATH_KEY = ResourceKey.create(Registries.BLOCK, WREATH_ID);
+    WREATH = new WallOrnamentBlock(
+        BlockBehaviour.Properties.of()
+            .mapColor(state -> MapColor.byId(state.getValue(OrnamentBlock.MAP_COLOR)))
+            .strength(0.5f)
+            .sound(SoundType.GLASS)
+            .noOcclusion()
+            .pushReaction(PushReaction.DESTROY)
+            .setId(WREATH_KEY));
+
     consumer.accept(BLIZZARD, BLIZZARD_ID);
     consumer.accept(ORNAMENT_FLOOR, ORNAMENT_FLOOR_ID);
     consumer.accept(ORNAMENT_WALL, ORNAMENT_WALL_ID);
+    consumer.accept(WREATH, WREATH_ID);
   }
 }
