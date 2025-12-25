@@ -1,5 +1,6 @@
 package com.cursee.winter_antics.impl.client.renderer.entity;
 
+import com.cursee.winter_antics.WinterAntics;
 import com.cursee.winter_antics.impl.client.model.BlizzardGolemModel;
 import com.cursee.winter_antics.impl.client.renderer.entity.layers.BlizzardGolemHeadLayer;
 import com.cursee.winter_antics.impl.common.entity.BlizzardGolem;
@@ -10,7 +11,7 @@ import net.minecraft.resources.Identifier;
 
 public class BlizzardGolemRenderer extends MobRenderer<BlizzardGolem, SnowGolemRenderState, BlizzardGolemModel> {
 
-  private static final Identifier SNOW_GOLEM_LOCATION = Identifier.withDefaultNamespace("textures/entity/snow_golem.png");
+  private static final Identifier SNOW_GOLEM_LOCATION = WinterAntics.identifier("textures/entity/blizzard_golem.png");
 
   public BlizzardGolemRenderer(EntityRendererProvider.Context context) {
     super(context, new BlizzardGolemModel(context.bakeLayer(BlizzardGolemModel.LAYER_LOCATION)), 0.5F);
