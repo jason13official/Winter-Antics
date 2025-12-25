@@ -8,6 +8,8 @@
   "item.winter_antics.ornament": "Ornament",
   "item.winter_antics.blizzard": "Blizzard",
 
+  "entity.winter_antics.blizzard_golem": "Blizzard Golem",
+
   "winter_antics.configuration.title": "Winter Antics Configs",
   "winter_antics.configuration.section.winter_antics.common.toml": "Winter Antics Configs",
   "winter_antics.configuration.section.winter_antics.common.toml.title": "Winter Antics Configs",

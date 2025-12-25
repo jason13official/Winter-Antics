@@ -20,13 +20,11 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Shearable;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RangedAttackGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.golem.AbstractGolem;
-import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -71,15 +69,6 @@ public class BlizzardGolem extends AbstractGolem implements Shearable, RangedAtt
     this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, true, false, (living, serverLevel) -> canAttack(living)));
   }
 
-//  private boolean canWeAttack(LivingEntity living) {
-//
-//    boolean stillAlive = !living.isDeadOrDying();
-//
-//    boolean probablySurvival
-//
-//    return stillAlive;
-//  }
-
   @Override
   public boolean canAttack(LivingEntity living) {
 
@@ -95,7 +84,7 @@ public class BlizzardGolem extends AbstractGolem implements Shearable, RangedAtt
   @Override
   protected void defineSynchedData(SynchedEntityData.Builder builder) {
     super.defineSynchedData(builder);
-    builder.define(DATA_PUMPKIN_ID, (byte) PUMPKIN_FLAG);
+    builder.define(DATA_PUMPKIN_ID, PUMPKIN_FLAG);
   }
 
   @Override
@@ -156,7 +145,10 @@ public class BlizzardGolem extends AbstractGolem implements Shearable, RangedAtt
       ItemStack stack1 = new ItemStack(Items.ENDER_PEARL);
       Projectile.spawnProjectile(new Snowball(serverLevel, this, stack), serverLevel, stack, (proj) -> proj.shoot(deltaX, y + distSqrt - proj.getY(), deltaZ, 1.6F, 12.0F));
       Projectile.spawnProjectile(new SmallFireball(serverLevel, this, Vec3.ZERO), serverLevel, stack, (proj) -> proj.shoot(deltaX, y + distSqrt - proj.getY(), deltaZ, 1.6F, 12.0F));
-      Projectile.spawnProjectile(new ThrownEnderpearl(serverLevel, this, stack1), serverLevel, stack, (proj) -> proj.shoot(deltaX, y + distSqrt - proj.getY(), deltaZ, 1.6F, 12.0F));
+
+      if (serverLevel.getRandom().nextInt(0, 10) == 0) {
+        Projectile.spawnProjectile(new ThrownEnderpearl(serverLevel, this, stack1), serverLevel, stack, (proj) -> proj.shoot(deltaX, y + distSqrt - proj.getY(), deltaZ, 1.6F, 12.0F));
+      }
     }
 
     this.playSound(SoundEvents.SNOW_GOLEM_SHOOT, 1.0F, 0.4F / (this.getRandom().nextFloat() * 0.4F + 0.8F));

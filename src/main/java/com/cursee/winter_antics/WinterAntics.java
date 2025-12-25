@@ -20,6 +20,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -109,7 +110,7 @@ public class WinterAntics {
   public void onCreateEntityAttributes(EntityAttributeCreationEvent event) {
 
     event.put(WAEntities.SNOW_ANGEL, Mob.createMobAttributes().build());
-    event.put(WAEntities.BLIZZARD_GOLEM, BlizzardGolem.createAttributes().build());
+    event.put(WAEntities.BLIZZARD_GOLEM, BlizzardGolem.createAttributes().add(Attributes.CAMERA_DISTANCE, 16.0F).build());
   }
 
   // You can use SubscribeEvent and let the Event Bus discover methods to call
