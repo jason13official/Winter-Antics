@@ -70,7 +70,7 @@ public class WAItems {
         .title(Component.translatable("itemGroup.winterAntics"))
         .displayItems((itemDisplayParameters, output) -> {
           output.accept(WAItems.ORNAMENT);
-          output.accept(WAItems.WREATH);
+          // output.accept(WAItems.WREATH);
           output.accept(WAItems.BLIZZARD);
           output.accept(WAItems.BLIZZARD_SPAWN_EGG);
         }).build();
